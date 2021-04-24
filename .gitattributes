@@ -3,3 +3,6 @@
 
 # Don't diff or textually merge source maps
 data/* binary
+
+# Ignore config files
+.eslintrc.js linguist-detectable=false
