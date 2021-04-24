@@ -1,16 +1,20 @@
+#!/bin/node
+
 /**
- * Emojifier
+ * Emojifier (standalone script)
  *
  * @license MIT
  * @copyright (c) 2020 oldpepper12, 2021 Luke Zhang
  * @see {@link https://github.com/oldpepper12/emojibot2/blob/master/docs/main.js}
  */
 
-import data from "../../data/emoji-mappings.json"
+import {promises as fs} from "fs"
 
-const sample = <T>(items: T[]): T => items[Math.floor(Math.random() * items.length)] as T
+const data = JSON.parse(await fs.readFile("./data/emoji-mappings.json", "utf-8"))
 
-function* range(start: number, stop?: number, step = 1): Generator<number, void, void> {
+const sample = (items) => items[Math.floor(Math.random() * items.length)]
+
+function* range(start, stop, step = 1) {
     for (let i = stop ? start : 0; i < (stop ?? start); i += step) {
         yield i
     }
@@ -85,14 +89,14 @@ const validChars = [
     "Z",
 ]
 
-const stripWord = (word: string): string =>
+const stripWord = (word) =>
     word
         .split("")
         .filter((c) => validChars.includes(c))
         .join("")
         .toLowerCase()
 
-const emojifyLine = (text: string, lenProbabilities = [1, 1, 1, 1, 2, 2, 3]): string =>
+const emojifyLine = (text, lenProbabilities = [1, 1, 1, 1, 2, 2, 3]) =>
     text
         .split(" ")
         .map((word) => {
@@ -100,7 +104,7 @@ const emojifyLine = (text: string, lenProbabilities = [1, 1, 1, 1, 2, 2, 3]): st
 
             if (strippedWord) {
                 const emojiString = Array.from(range(sample(lenProbabilities)))
-                    .map(() => sample((data as {[key: string]: string[]})[strippedWord] ?? []))
+                    .map(() => sample(data[strippedWord] ?? []))
                     .join("")
 
                 return word + emojiString + " "
@@ -110,10 +114,10 @@ const emojifyLine = (text: string, lenProbabilities = [1, 1, 1, 1, 2, 2, 3]): st
         })
         .join("")
 
-export const emojify = (text: string, lenProbabilities = [1, 1, 1, 1, 2, 2, 3]) =>
+const emojify = (text, lenProbabilities = [1, 1, 1, 1, 2, 2, 3]) =>
     text
         .split(/\n/g)
         .map((line) => emojifyLine(line, lenProbabilities))
         .join("\n")
 
-export default emojify
+console.log(emojify(process.argv.slice(2).join(" ")))
