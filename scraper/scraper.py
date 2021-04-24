@@ -2,7 +2,6 @@
 Used to scrape emojipasta text from r/emojipasta.
 """
 
-import sys
 import itertools
 
 import scraper.utils as utils
@@ -23,9 +22,7 @@ def generateComments(subreddit):
 
 
 def main():
-    reddit = utils.client.getReddit(sys.argv)
-
-    print(reddit)
+    reddit = utils.client.getReddit()
 
     file = open(utils.files.pathToCommentsFile, "w+", encoding="utf-8")
 

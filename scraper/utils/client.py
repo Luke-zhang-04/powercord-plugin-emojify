@@ -4,21 +4,25 @@ user-provided credentials (from the command line).
 """
 
 import praw
+import os
 import sys
 
 
-def getReddit(argv):
-    if len(argv) != 6:
-        print(
-            "Please provide: <client_id> <client_secret> <user_agent> <username> <password>"
-        )
+def getReddit():
+    client_id, client_secret, user_agent = (
+        os.getenv("CLIENT_ID"),
+        os.getenv("CLIENT_SECRET"),
+        os.getenv("USER_AGENT"),
+    )
+
+    if not client_id or not client_secret or not user_agent:
+        print("client_id, client_secret, and user_agent")
+
         sys.exit(1)
-    _, client_id, client_secret, user_agent, username, password = sys.argv
 
     return praw.Reddit(
+        read_only=True,
         client_id=client_id,
         client_secret=client_secret,
         user_agent=user_agent,
-        username=username,
-        password=password,
     )
