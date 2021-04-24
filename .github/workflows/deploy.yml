@@ -1,0 +1,33 @@
+name: Build and Deploy
+
+on:
+  release:
+    types: [published]
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: install deps
+        run: yarn install --frozen-lockfile
+
+      - name: typecheck
+        run: yarn tsc --noEmit
+
+      - name: prettier check
+        run: yarn prettier . --check
+
+      - name: build
+        run: yarn build
+
+      - name: deploy
+        uses: JamesIves/github-pages-deploy-action@4.1.0
+        with:
+          branch: release
+          folder: dist
