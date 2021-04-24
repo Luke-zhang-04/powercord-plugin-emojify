@@ -1,6 +1,9 @@
 """
 Used to parse the r/emojipasta comments and form
 word-emoji associations.
+
+Copyright (c) 2018 KPG, 2021 Luke Zhang
+https://github.com/Kevinpgalligan/EmojipastaBot/tree/master/src/emojipasta/scraping
 """
 
 import io

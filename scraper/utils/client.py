@@ -1,6 +1,8 @@
 """
-Shared code for creating the praw reddit client using
-user-provided credentials (from the command line).
+Shared code for creating the praw reddit client using user-provided credentials (from the command line).
+
+Copyright (c) 2018 KPG, 2021 Luke Zhang
+https://github.com/Kevinpgalligan/EmojipastaBot/tree/master/src/emojipasta/scraping
 """
 
 import praw

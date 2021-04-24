@@ -1,5 +1,8 @@
 """
 Common emoji code.
+
+Copyright (c) 2018 KPG, 2021 Luke Zhang
+https://github.com/Kevinpgalligan/EmojipastaBot/tree/master/src/emojipasta/scraping
 """
 
 import emoji

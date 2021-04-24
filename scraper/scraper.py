@@ -1,5 +1,8 @@
 """
 Used to scrape emojipasta text from r/emojipasta.
+
+Copyright (c) 2018 KPG, 2021 Luke Zhang
+https://github.com/Kevinpgalligan/EmojipastaBot/tree/master/src/emojipasta/scraping
 """
 
 import itertools
