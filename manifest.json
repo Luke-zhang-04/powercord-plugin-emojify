@@ -1,0 +1,8 @@
+{
+  "name": "emojifier",
+  "version": "1.0.0",
+  "description": "emojifiy your message",
+  "author": "Luke Zhang",
+  "license": "MIT",
+  "dependencies": []
+}

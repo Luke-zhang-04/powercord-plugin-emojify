@@ -37,30 +37,28 @@ const stripWord = (word: string): string =>
         .join("")
         .toLowerCase()
 
-const emojifyLine = (text: string, len_probabilities = [1, 1, 1, 1, 2, 2, 3]): string =>
+const emojifyLine = (text: string, lenProbabilities = [1, 1, 1, 1, 2, 2, 3]): string =>
     text
         .split(" ")
         .map((word) => {
             const strippedWord = stripWord(word)
 
             if (strippedWord) {
-                let emoji_string = ""
+                const emojiString = Array.from(range(sample(lenProbabilities)))
+                    .map(() => sample((data as {[key: string]: string[]})[strippedWord] ?? []))
+                    .join("")
 
-                for (let _ of Array.from(range(sample(len_probabilities)))) {
-                    emoji_string += sample(data[strippedWord])
-                }
-
-                return word + emoji_string + " "
+                return word + emojiString + " "
             } else {
                 return word + " "
             }
         })
         .join("")
 
-export const emojify = (text: string, len_probabilities = [1, 1, 1, 1, 2, 2, 3]) =>
+export const emojify = (text: string, lenProbabilities = [1, 1, 1, 1, 2, 2, 3]) =>
     text
         .split(/\n/g)
-        .map((line) => emojifyLine(line, len_probabilities))
+        .map((line) => emojifyLine(line, lenProbabilities))
         .join("\n")
 
 export default emojify
