@@ -1,0 +1,8 @@
+*/node_modules/
+build
+.serverless
+.vscode
+lib/
+tsconfig*.json
+public/css
+public/js
