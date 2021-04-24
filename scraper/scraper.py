@@ -9,12 +9,13 @@ import itertools
 
 import scraper.utils as utils
 
-commentsToScrape = 6000
+commentsToScrape = 9000
 emojipasta = "emojipasta"
 
 
 def loadCommentsAndFlatten(submission):
     submission.comments.replace_more(limit=None)
+
     return submission.comments.list()
 
 
@@ -26,14 +27,15 @@ def generateComments(subreddit):
 
 def main():
     reddit = utils.client.getReddit()
-
     file = open(utils.files.pathToCommentsFile, "w+", encoding="utf-8")
-
     commentsScraped = 0
+
     for comment in generateComments(reddit.subreddit(emojipasta)):
         file.write(comment.body)
         file.write("\n")
+
         commentsScraped += 1
+
         if commentsScraped >= commentsToScrape:
             break
         elif commentsScraped % 1000 == 0:

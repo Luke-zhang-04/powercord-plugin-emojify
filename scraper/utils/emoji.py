@@ -12,5 +12,5 @@ EMOJIS = set(
 )
 
 
-def isEmoji(c):
-    return c in EMOJIS
+def isEmoji(char: str) -> bool:
+    return char in EMOJIS

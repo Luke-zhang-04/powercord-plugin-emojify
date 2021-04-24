@@ -10,7 +10,7 @@ import os
 import sys
 
 
-def getReddit():
+def getReddit() -> praw.Reddit:
     client_id, client_secret, user_agent = (
         os.getenv("CLIENT_ID"),
         os.getenv("CLIENT_SECRET"),
