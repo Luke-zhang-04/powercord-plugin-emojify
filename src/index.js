@@ -33,7 +33,8 @@ export default class Emojify extends Plugin {
             (args) => {
                 if (parentThis.settings.get("emojifierEnabled", false)) {
                     let text = args[1].content
-                    text = emojify(text)
+
+                    text = emojify(text, parentThis.settings.get("shouldUseFuzzyWordMatch", false))
                     args[1].content = text
                 }
 
@@ -46,7 +47,13 @@ export default class Emojify extends Plugin {
             command: "emojify",
             description: "emojify your message",
             usage: "{c} [ text ]",
-            executor: (args) => ({send: true, result: emojify(args.join(" "))}),
+            executor: (args) => ({
+                send: true,
+                result: emojify(
+                    args.join(" "),
+                    parentThis.settings.get("shouldUseFuzzyWordMatch", false),
+                ),
+            }),
         })
 
         powercord.api.commands.registerCommand({

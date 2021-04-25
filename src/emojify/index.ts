@@ -7,6 +7,9 @@
  */
 
 import data from "../../data/emoji-mappings.json"
+import didyoumean from "didyoumean/didYouMean-1.2.1.min.js"
+
+didyoumean.threshold = 0.7
 
 const sample = <T>(items: T[]): T => items[Math.floor(Math.random() * items.length)] as T
 
@@ -25,7 +28,17 @@ const stripWord = (word: string): string =>
         .join("")
         .toLowerCase()
 
-const emojifyLine = (text: string, lenProbabilities = [1, 1, 1, 1, 2, 2, 3]): string =>
+const getFuzzyString = (key: string): string | undefined => {
+    const result = didyoumean(key, Object.keys(data))
+
+    return result instanceof Array ? result[0] : result
+}
+
+const emojifyLine = (
+    text: string,
+    shouldUseFuzzyWordMatch = false,
+    lenProbabilities = [1, 1, 1, 1, 2, 2, 3],
+): string =>
     text
         .split(" ")
         .map((word) => {
@@ -33,7 +46,19 @@ const emojifyLine = (text: string, lenProbabilities = [1, 1, 1, 1, 2, 2, 3]): st
 
             if (strippedWord) {
                 const emojiString = Array.from(range(sample(lenProbabilities)))
-                    .map(() => sample((data as {[key: string]: string[]})[strippedWord] ?? []))
+                    .map(() => {
+                        let emojis = (data as {[key: string]: string[]})[strippedWord]
+
+                        if (emojis === undefined && shouldUseFuzzyWordMatch) {
+                            const fuzzyWord = getFuzzyString(strippedWord)
+
+                            if (fuzzyWord && fuzzyWord !== strippedWord) {
+                                emojis = (data as {[key: string]: string[]})[fuzzyWord]
+                            }
+                        }
+
+                        return sample(emojis ?? [])
+                    })
                     .join("")
 
                 return word + emojiString + " "
@@ -43,10 +68,14 @@ const emojifyLine = (text: string, lenProbabilities = [1, 1, 1, 1, 2, 2, 3]): st
         })
         .join("")
 
-export const emojify = (text: string, lenProbabilities = [1, 1, 1, 1, 2, 2, 3]) =>
+export const emojify = (
+    text: string,
+    shouldUseFuzzyWordMatch = false,
+    lenProbabilities = [1, 1, 1, 1, 2, 2, 3],
+) =>
     text
         .split(/\n/g)
-        .map((line) => emojifyLine(line, lenProbabilities))
+        .map((line) => emojifyLine(line, shouldUseFuzzyWordMatch, lenProbabilities))
         .join("\n")
 
 export default emojify

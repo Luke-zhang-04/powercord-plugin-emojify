@@ -25,7 +25,13 @@ const config = {
             indent: "  ",
             namedExports: false,
         }),
-        process.env.NODE_ENV === "dev" ? undefined : terser({}),
+        process.env.NODE_ENV === "dev"
+            ? undefined
+            : terser({
+                  format: {
+                      comments: /copyright|license/giu,
+                  },
+              }),
     ],
 }
 
