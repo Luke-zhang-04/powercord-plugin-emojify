@@ -2,7 +2,7 @@
 
 [Source](https://github.com/Luke-zhang-04/powercord-plugin-emojify)
 
-Emojify😃🤯🤯 your👉 Discord🤭 messages📨📨📨 and🏽🌟🔌 get🍸 judged by😈 everyone👨 else😩
+Emojify😞 your😏👈 Discord📞🕹 messages📨📨 to🙅 annoy everyone👦 else🤔
 
 ## Installation
 
@@ -14,8 +14,8 @@ git clone --single-branch --branch release https://github.com/Luke-zhang-04/powe
 
 ## Credits
 
-See [emojifier](https://github.com/Luke-zhang-04/powercord-plugin-emojify/tree/master/src/emojify/README.md)
-See [scraper](https://github.com/Luke-zhang-04/powercord-plugin-emojify/tree/master/src/scraper/REAMDE.md)
+-   See [emojifier](https://github.com/Luke-zhang-04/powercord-plugin-emojify/tree/master/src/emojify/README.md)
+-   See [scraper](https://github.com/Luke-zhang-04/powercord-plugin-emojify/tree/master/src/scraper/REAMDE.md)
 
 ## Details
 
