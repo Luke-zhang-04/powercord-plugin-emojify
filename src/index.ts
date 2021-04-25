@@ -12,7 +12,7 @@ import Settings from "./components/Settings"
 import emojify from "./emojify"
 
 export default class Emojify extends Plugin {
-    async startPlugin() {
+    public startPlugin = async (): Promise<void> => {
         powercord.api.settings.registerSettings(this.entityID, {
             category: this.entityID,
             label: "Emojifier",
@@ -32,10 +32,10 @@ export default class Emojify extends Plugin {
             "sendMessage",
             (args) => {
                 if (parentThis.settings.get("emojifierEnabled", false)) {
-                    let text = args[1].content
+                    let text = args[1]?.content ?? ""
 
                     text = emojify(text, parentThis.settings.get("shouldUseFuzzyWordMatch", false))
-                    args[1].content = text
+                    ;(args[1] ??= {content: ""}).content = text
                 }
 
                 return args
@@ -67,7 +67,7 @@ export default class Emojify extends Plugin {
         })
     }
 
-    pluginWillUnload() {
+    public pluginWillUnload = (): void => {
         powercord.api.settings.unregisterSettings(this.entityID)
         uninject("emojifierSend")
         powercord.api.commands.unregisterCommand("toggleEmojify")

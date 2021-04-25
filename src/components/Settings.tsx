@@ -5,12 +5,12 @@
  * @copyright (C) 2021 Luke Zhang
  */
 
+import type {Plugin} from "powercord/entities"
 import {React} from "powercord/webpack"
 import {SwitchItem} from "powercord/components/settings"
 
-interface Props {
-    getSetting(name: string, def: boolean): boolean
-    toggleSetting(name: string): void
+interface Props extends RenderProps {
+    main: Plugin
 }
 
 interface State {
