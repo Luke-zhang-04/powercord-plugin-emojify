@@ -9,6 +9,9 @@
  */
 
 import {promises as fs} from "fs"
+import didyoumean from "didyoumean"
+
+didyoumean.threshold = 0.7
 
 const data = JSON.parse(await fs.readFile("./data/emoji-mappings.json", "utf-8"))
 
@@ -29,7 +32,17 @@ const stripWord = (word) =>
         .join("")
         .toLowerCase()
 
-const emojifyLine = (text, lenProbabilities = [1, 1, 1, 1, 2, 2, 3]) =>
+const getFuzzyString = (key) => {
+    const result = didyoumean(key, Object.keys(data))
+
+    return result instanceof Array ? result[0] : result
+}
+
+const emojifyLine = (
+    text,
+    shouldUseFuzzyWordMatch = false,
+    lenProbabilities = [1, 1, 1, 1, 2, 2, 3],
+) =>
     text
         .split(" ")
         .map((word) => {
@@ -37,7 +50,19 @@ const emojifyLine = (text, lenProbabilities = [1, 1, 1, 1, 2, 2, 3]) =>
 
             if (strippedWord) {
                 const emojiString = Array.from(range(sample(lenProbabilities)))
-                    .map(() => sample(data[strippedWord] ?? []))
+                    .map(() => {
+                        let emojis = data[strippedWord]
+
+                        if (emojis === undefined && shouldUseFuzzyWordMatch) {
+                            const fuzzyWord = getFuzzyString(strippedWord)
+
+                            if (fuzzyWord && fuzzyWord !== strippedWord) {
+                                emojis = data[fuzzyWord]
+                            }
+                        }
+
+                        return sample(emojis ?? [])
+                    })
                     .join("")
 
                 return word + emojiString + " "
@@ -47,10 +72,14 @@ const emojifyLine = (text, lenProbabilities = [1, 1, 1, 1, 2, 2, 3]) =>
         })
         .join("")
 
-const emojify = (text, lenProbabilities = [1, 1, 1, 1, 2, 2, 3]) =>
+const emojify = (
+    text,
+    shouldUseFuzzyWordMatch = false,
+    lenProbabilities = [1, 1, 1, 1, 2, 2, 3],
+) =>
     text
         .split(/\n/g)
-        .map((line) => emojifyLine(line, lenProbabilities))
+        .map((line) => emojifyLine(line, shouldUseFuzzyWordMatch, lenProbabilities))
         .join("\n")
 
 console.log(emojify(process.argv.slice(2).join(" ")))
