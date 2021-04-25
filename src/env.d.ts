@@ -59,7 +59,7 @@ declare const powercord: {
                 command: string
                 description?: string
                 usage?: string
-                executor: (args: string[]) => ({send: boolean; result: string} | void)
+                executor: (args: string[]) => {send: boolean; result: string} | void
             }) => void
             unregisterCommand: (name: string) => void
         }
