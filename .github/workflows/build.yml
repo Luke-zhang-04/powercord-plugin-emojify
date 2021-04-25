@@ -10,11 +10,19 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: install deps
+      - name: install deps - npm
         run: yarn install --frozen-lockfile
 
-      - name: typecheck
+      - name: install deps - python
+        run: |
+          python -m pip install --upgrade pip
+          pip install black
+
+      - name: typecheck app
         run: yarn tsc --noEmit
 
-      - name: prettier check
+      - name: check with prettier
         run: yarn prettier . --check
+
+      - name: check with black
+        run: black --check .
