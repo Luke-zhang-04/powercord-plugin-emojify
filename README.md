@@ -14,6 +14,8 @@ git clone --single-branch --branch release https://github.com/Luke-zhang-04/powe
 
 ## Credits
 
+This "project" is basically just a bunch of exisitng open source projects put together to make a Powercord plugin.
+
 -   See [emojifier](https://github.com/Luke-zhang-04/powercord-plugin-emojify/tree/master/src/emojify/README.md)
 -   See [scraper](https://github.com/Luke-zhang-04/powercord-plugin-emojify/tree/master/src/scraper/REAMDE.md)
 
