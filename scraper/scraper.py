@@ -9,8 +9,9 @@ import itertools
 
 import scraper.utils as utils
 
-commentsToScrape = 9000
+commentsToScrape = 6000
 emojipasta = "emojipasta"
+bot = "EmojifierBot"
 
 
 def loadCommentsAndFlatten(submission):
@@ -21,8 +22,24 @@ def loadCommentsAndFlatten(submission):
 
 def generateComments(subreddit):
     return itertools.chain.from_iterable(
-        map(loadCommentsAndFlatten, subreddit.hot(limit=None))
+        map(loadCommentsAndFlatten, subreddit.hot(limit=commentsToScrape // 2))
     )
+
+
+def generateBotComments(user):
+    return map(lambda c: c, user.comments.hot(limit=commentsToScrape // 2))
+
+
+def concatComments(botComments, subRedditComments):
+    print("starting bot comments")
+    for comment in botComments:
+        yield comment
+
+    print("starting subreddit comments")
+    for comment in subRedditComments:
+        yield comment
+
+    print("done")
 
 
 def main():
@@ -33,9 +50,11 @@ def main():
 
     print("scraping comments")
 
-    for comment in generateComments(reddit.subreddit(emojipasta)):
-        file.write(comment.body)
-        file.write("\n")
+    for comment in concatComments(
+        generateBotComments(reddit.redditor(bot)),
+        generateComments(reddit.subreddit(emojipasta)),
+    ):
+        file.write(f"{comment.body}\n")
 
         commentsScraped += 1
 
@@ -45,6 +64,8 @@ def main():
             print("scraped so far: " + str(commentsScraped))
         elif commentsScraped % 500 == 0:
             print("    scraped so far: " + str(commentsScraped))
+    else:
+        print("broke early")
 
     file.close()
 
