@@ -106,3 +106,4 @@ dist
 .vscode
 **/__pycache__
 tsbuildinfo.json
+emojipasta-comments.txt
