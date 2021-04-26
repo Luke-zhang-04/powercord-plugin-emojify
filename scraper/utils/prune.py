@@ -12,6 +12,7 @@ from typing import Generator
 
 
 def countItems(items: list[str]) -> dict[str, int]:
+    """Count the occurences of items in a list"""
     countedItems: dict[str, int] = {}
 
     for item in items:
@@ -21,6 +22,10 @@ def countItems(items: list[str]) -> dict[str, int]:
 
 
 def pruneList(items: list[str]) -> Generator[str, None, None]:
+    """
+    Prune list items by reducing the number of items while retaining their ratio
+    E.g [1, 1, 1, 1, 2, 2] -> [1, 1, 2]
+    """
     count = countItems(items)
     divisor = reduce(gcd, count.values())
 
@@ -30,5 +35,6 @@ def pruneList(items: list[str]) -> Generator[str, None, None]:
 
 
 def pruneMappings(map: defaultdict[str, list[str]]) -> None:
+    """Prune emoji map"""
     for word, emojis in map.items():
         map[word] = list(pruneList(emojis))

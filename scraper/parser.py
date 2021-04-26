@@ -1,6 +1,5 @@
 """
-Used to parse the r/emojipasta comments and form
-word-emoji associations.
+Used to parse the r/emojipasta comments and form word-emoji associations.
 
 Copyright (c) 2018 KPG, 2021 Luke Zhang
 https://github.com/Kevinpgalligan/EmojipastaBot/tree/master/src/emojipasta/scraping
@@ -10,7 +9,7 @@ import io
 import json
 import re
 from collections import defaultdict
-from typing import Callable, Tuple, Union
+from typing import Callable, Literal, Tuple, Union
 
 import scraper.utils as utils
 
@@ -18,7 +17,11 @@ maxWordLen = 20  # Longest word to include
 
 
 def isValidWord(word: str) -> bool:
+    """If word matches ^[A-z]+$ (keyboard letters)"""
     return len(word) < maxWordLen and bool(re.match("^[A-z]+$", word, flags=re.UNICODE))
+
+
+TokenLiterals = Union[Literal[0], Literal[1]]
 
 
 class TokenType:
@@ -27,7 +30,7 @@ class TokenType:
 
 
 class Token:
-    def __init__(self, tokenType: int, raw: str):
+    def __init__(self, tokenType: TokenLiterals, raw: str):
         self.tokenType = tokenType
         self.raw = raw
 
@@ -36,7 +39,10 @@ TokenData = Tuple[Token, int]
 
 
 def parseSpecificToken(
-    line: str, index: int, tokenType: int, isPartOfTokenFn: Callable[[str], bool]
+    line: str,
+    index: int,
+    tokenType: TokenLiterals,
+    isPartOfTokenFn: Callable[[str], bool],
 ) -> TokenData:
     newIndex = index
 
