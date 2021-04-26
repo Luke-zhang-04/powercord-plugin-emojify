@@ -11,14 +11,26 @@ from functools import reduce
 from typing import Generator
 
 
-def countItems(items: list[str]) -> dict[str, int]:
+CountDict = dict[str, int]
+
+
+def countItems(items: list[str]) -> CountDict:
     """Count the occurences of items in a list"""
-    countedItems: dict[str, int] = {}
+    countedItems: CountDict = {}
 
     for item in items:
         countedItems[item] = countedItems.get(item, 0) + 1
 
     return countedItems
+
+
+def deleteInsignificantEmojis(countDict: CountDict) -> None:
+    mostOccurences = max(map(lambda val: val, countDict.values()))
+
+    if mostOccurences > 15:
+        for key, occurences in countDict.items():
+            if mostOccurences * 0.1 > occurences:
+                countDict[key] = 0
 
 
 def pruneList(items: list[str]) -> Generator[str, None, None]:
@@ -27,6 +39,9 @@ def pruneList(items: list[str]) -> Generator[str, None, None]:
     E.g [1, 1, 1, 1, 2, 2] -> [1, 1, 2]
     """
     count = countItems(items)
+
+    deleteInsignificantEmojis(count)
+
     divisor = reduce(gcd, count.values())
 
     for emoji, occurences in count.items():
