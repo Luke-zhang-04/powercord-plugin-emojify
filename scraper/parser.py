@@ -111,7 +111,7 @@ def findNearestWord(i: int, tokens: list[Token]) -> Union[str, None]:
 
 
 def main():
-    emojiMappings = defaultdict(list)
+    emojiMappings: defaultdict[str, list[str]] = defaultdict(list)
 
     print("Creating mappings...")
     with open(utils.files.pathToCommentsFile, "r", encoding="utf-8") as comments_file:
@@ -124,6 +124,8 @@ def main():
 
                     if nearestWord is not None and isValidWord(nearestWord):
                         emojiMappings[nearestWord].extend(list(token.raw))
+
+    utils.prune.pruneMappings(emojiMappings)
 
     print("Writing mappings to file...")
     with io.open(utils.files.pathToMappingsFile, "w", encoding="utf-8") as mappingsFile:

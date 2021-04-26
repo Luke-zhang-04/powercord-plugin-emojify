@@ -6,3 +6,4 @@ https://github.com/Kevinpgalligan/EmojipastaBot/tree/master/src/emojipasta/scrap
 import scraper.utils.client as client
 import scraper.utils.emoji as emoji
 import scraper.utils.files as files
+import scraper.utils.prune as prune
