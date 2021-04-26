@@ -135,7 +135,11 @@ def main():
 
     print("Writing mappings to file...")
     with io.open(utils.files.pathToMappingsFile, "w", encoding="utf-8") as mappingsFile:
-        json.dump(emojiMappings, mappingsFile, ensure_ascii=False)
+        json.dump(
+            dict(sorted(emojiMappings.items())),
+            mappingsFile,
+            ensure_ascii=False,
+        )
 
 
 if __name__ == "__main__":
