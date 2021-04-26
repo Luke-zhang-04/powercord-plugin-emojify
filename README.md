@@ -4,6 +4,10 @@
 
 Emojify😞 your😏👈 Discord📞🕹 messages📨📨 to🙅 annoy everyone👦 else🤔
 
+## Disclaimer
+
+I cannot and do not take responsibility for any of the words and emojis in any of the files listed in `data/`. These are scraped from Reddit without filters and WILL contain *questionable* language. It's Reddit, what did you expect?
+
 ## Installation
 
 ```bash
