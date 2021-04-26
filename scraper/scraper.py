@@ -26,9 +26,12 @@ def generateComments(subreddit):
 
 
 def main():
+    print("setting up reddit")
     reddit = utils.client.getReddit()
     file = open(utils.files.pathToCommentsFile, "w+", encoding="utf-8")
     commentsScraped = 0
+
+    print("scraping comments")
 
     for comment in generateComments(reddit.subreddit(emojipasta)):
         file.write(comment.body)
@@ -40,8 +43,12 @@ def main():
             break
         elif commentsScraped % 1000 == 0:
             print("scraped so far: " + str(commentsScraped))
+        elif commentsScraped % 500 == 0:
+            print("    scraped so far: " + str(commentsScraped))
 
     file.close()
+
+    print("done scraping comments")
 
 
 if __name__ == "__main__":
