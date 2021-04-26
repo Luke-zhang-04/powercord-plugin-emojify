@@ -10,7 +10,7 @@ from math import gcd
 from functools import reduce
 from typing import Generator
 
-
+softMaxListSize = 30
 CountDict = dict[str, int]
 
 
@@ -29,8 +29,21 @@ def deleteInsignificantEmojis(countDict: CountDict) -> None:
 
     if mostOccurences > 15:
         for key, occurences in countDict.items():
-            if mostOccurences * 0.1 > occurences:
+            if mostOccurences * 0.05 > occurences:
                 countDict[key] = 0
+
+
+def forcePruneList(items: list[str]) -> Generator[str, None, None]:
+    """
+    Forcefully prune list items by reducing the number of items without
+    retaining their ratio, but keeping it as close as possible to the original
+    """
+    count = countItems(items)
+    divisor = len(items) / softMaxListSize
+
+    for emoji, occurences in count.items():
+        for _ in range(round(occurences / divisor)):
+            yield emoji
 
 
 def pruneList(items: list[str]) -> Generator[str, None, None]:
@@ -52,4 +65,9 @@ def pruneList(items: list[str]) -> Generator[str, None, None]:
 def pruneMappings(map: defaultdict[str, list[str]]) -> None:
     """Prune emoji map"""
     for word, emojis in map.items():
-        map[word] = list(pruneList(emojis))
+        prunedList = list(pruneList(emojis))
+
+        if len(prunedList) > softMaxListSize:
+            prunedList = list(forcePruneList(map[word]))
+
+        map[word] = prunedList
