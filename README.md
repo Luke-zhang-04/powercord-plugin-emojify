@@ -6,7 +6,7 @@ Emojify😞 your😏👈 Discord📞🕹 messages📨📨 to🙅 annoy everyone�
 
 ## Disclaimer
 
-I cannot and do not take responsibility for any of the words and emojis in any of the files listed in `data/`. These are scraped from Reddit without filters and WILL contain *questionable* language. It's Reddit, what did you expect?
+I cannot and do not take responsibility for any of the words and emojis in any of the files listed in `data/`. These are scraped from Reddit without filters and WILL contain _questionable_ language. It's Reddit, what did you expect?
 
 ## Installation
 
@@ -20,8 +20,8 @@ git clone --single-branch --branch release https://github.com/Luke-zhang-04/powe
 
 This "project" is basically just a bunch of exisitng open source projects put together to make a Powercord plugin.
 
--   See [emojifier](https://github.com/Luke-zhang-04/powercord-plugin-emojify/tree/master/src/emojify/README.md)
--   See [scraper](https://github.com/Luke-zhang-04/powercord-plugin-emojify/tree/master/src/scraper/REAMDE.md)
+-   See [emojifier](https://github.com/Luke-zhang-04/powercord-plugin-emojify/blob/master/src/emojify/README.md)
+-   See [scraper](https://github.com/Luke-zhang-04/powercord-plugin-emojify/blob/master/scraper/README.md)
 
 ## Details
 
